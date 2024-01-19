@@ -5,6 +5,27 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "train",
+            "type": "python",
+            "request": "launch",
+            "module": "accelerate.commands.launch",
+            "args": [
+                "-m",
+                "axolotl.cli.train",
+                "examples/mistral/qlora-custom.yml"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false,
+        },
+        {
             "name": "Debug axolotl prompt - sharegpt",
             "type": "python",
             "module": "accelerate.commands.launch",

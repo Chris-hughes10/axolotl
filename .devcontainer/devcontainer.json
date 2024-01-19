@@ -1,0 +1,44 @@
+// File only needed for VSCode users to have proper Docker based interpreters
+{
+    "name": "llm",
+    "build": {
+         "dockerfile": "Dockerfile"
+    },
+    "runArgs": [
+        // ACTION NEEDED: uncomment the next line if your local machine has GPUs available
+        "--gpus", "all",
+        // Enable the docker container to access system resources
+        "--ipc", "host",
+        // mount cloudfiles to the container
+        "-v", "/home/azureuser/cloudfiles:/cloudfiles"
+    ],
+    // "mounts": [
+    //     "source=/home/azureuser/cloudfiles,target=/cloudfiles,type=bind"
+    // ],
+    "remoteEnv": {
+        "PYTHONPATH": "${containerEnv:PATH}:${containerWorkspaceFolder}/src/llm${containerWorkspaceFolder}/src",
+        // "HF_HOME": "/cloudfiles/data/.cache/huggingface",
+        "TRANSFORMERS_CACHE": "/cloudfiles/data/.cache/huggingface/hub",
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // Ensure we have IntelliSense in VSCode when running inside container
+                "EditorConfig.EditorConfig",
+                "ms-python.python",
+                "GitHub.copilot",
+                "blackCodeFormatter.black",
+                "ms-toolsai.jupyter",
+                "redhat.vscode-yaml",
+                "charliermarsh.ruff"
+
+            ]
+        }
+    },
+    "workspaceFolder": "/workspaces/axolotl",
+    // Need git for VSCode to color code modifications. Only runs when building environment.
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {"version": "latest"}
+    }
+    // "onCreateCommand": "pip install -e '.[flash-attn,deepspeed]'"
+}
